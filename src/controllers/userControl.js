@@ -1,4 +1,3 @@
-
 import { registerUser,loginUser } from "../services/userService.js";
 
 export const register= async(req,res)=>{
@@ -11,6 +10,7 @@ export const register= async(req,res)=>{
      res.status(400).json({message:"error",error :error.message})
     }
 };
+
 
 export const login = async(req,res)=>{
     try{
