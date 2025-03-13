@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 export const registerUser = async(username,email,password)=>{
 
     const existingUser = await User.findOne({email})
+
     if(existingUser){
         throw new Error("User already exists")
     };
@@ -18,6 +19,7 @@ export const registerUser = async(username,email,password)=>{
 
 
 export const loginUser = async(email,password)=>{
+    
     const user = await User.findOne({email});
     if(!user){
        throw new Error ("User not logged in")
