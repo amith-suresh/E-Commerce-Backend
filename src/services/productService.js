@@ -26,4 +26,13 @@ export const updateProductService = async(id,updatedData)=>{
     throw new CustomError('product is unavailable',400)
 }
 return existing
+};
+
+
+export const deleteProductService = async(id)=>{
+    const deleteItem = await product.findByIdAndDelete(id);
+    if(!deleteItem){
+        throw new CustomError('product is unavailable',400)
+    }
+    return deleteItem
 }

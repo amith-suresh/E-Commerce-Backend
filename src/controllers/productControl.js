@@ -1,5 +1,5 @@
 import CustomError from "../utils/customError.js";
-import { addNewProduct, getAllProductsServices, getSingleProductService, updateProductService } from "../services/productService.js";
+import { addNewProduct, deleteProductService, getAllProductsServices, getSingleProductService, updateProductService } from "../services/productService.js";
 import errorHandler from "../middlewares/errorHandler.js";
 
 
@@ -67,4 +67,17 @@ export const updateProduct=async(req,res,next)=>{
     }catch (error) {
         return next(new errorHandler("Internal Server Error", 500));
       }  
+}
+
+export const deleteProduct=async(req,res,next)=>{
+    const id = req.params.id
+    try{
+        await deleteProductService(id)
+        res.status(200).json({
+            success:true,
+            message:"item deleted successfully"
+        })
+    }catch (error) {
+        return next(new CustomError("Internal Server Error", 500));
+      } 
 }
