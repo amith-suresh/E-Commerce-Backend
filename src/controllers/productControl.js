@@ -1,5 +1,6 @@
 import CustomError from "../utils/customError.js";
-import { addNewProduct, getAllProductsServices, getSingleProductService } from "../services/productService.js";
+import { addNewProduct, getAllProductsServices, getSingleProductService, updateProductService } from "../services/productService.js";
+import errorHandler from "../middlewares/errorHandler.js";
 
 
 export const addProduct= async (req,res,next)=>{
@@ -50,4 +51,20 @@ export const getSingleProduct=async(req,res,next)=>{
    }catch (error) {
     return next(new CustomError("Internal Server Error", 500));
   }
+}
+
+export const updateProduct=async(req,res,next)=>{
+    const id = req.params.id
+    const updatedData = req.body
+    try{
+        const existingProduct = await updateProductService(id,updatedData)
+        if (!existingProduct) {
+          return next(new errorHandler("Product not found", 404));
+        }
+      res.status(200).json({
+        success:true,
+    })
+    }catch (error) {
+        return next(new errorHandler("Internal Server Error", 500));
+      }  
 }

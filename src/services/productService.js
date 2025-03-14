@@ -1,5 +1,6 @@
 import product from "../models/productModel.js";
 
+
 export const addNewProduct= async (data)=>{
     const newProduct = new product(data);
     return await newProduct.save()
@@ -16,3 +17,13 @@ export const getSingleProductService= async(id)=>{
     return await product.findById(id)
 }
 
+export const updateProductService = async(id,updatedData)=>{
+  const existing = await product.findByIdAndUpdate(id, updatedData, {
+    new: true,
+    runValidators: true,
+  });
+  if(!existing){
+    throw new CustomError('product is unavailable',400)
+}
+return existing
+}
