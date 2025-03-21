@@ -1,6 +1,7 @@
-export const successHandler=(req,res,message,statusCode)=>{
+export const successHandler=(res,statusCode,message,data)=>{
     return res.status(statusCode).json({
         success:true,
-        message
+        message,
+        data
     })
 }
