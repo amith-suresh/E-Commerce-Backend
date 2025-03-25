@@ -8,7 +8,7 @@ export const addProduct= async (req,res,next)=>{
     await addNewProduct(req.body)
     res.status(201).json({
         success: true,
-        message: "Product added successfully"
+        message: "Product added successfully",
     });
    }
    catch (error) {
@@ -30,9 +30,10 @@ try{
     if(search){
         filters.name = { $regex: search, $options: "i" };
     }
-    await getAllProductsServices(filters,limit,page)
+   const result = await getAllProductsServices(filters,limit,page)
     res.status(200).json({
-        success:true
+        success:true,
+        data:result
     })
 }catch (error) {
     return next(new CustomError("Internal Server Error", 500));

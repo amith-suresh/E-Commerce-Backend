@@ -5,10 +5,13 @@ import { successHandler } from "../utils/responseHandler.js";
 
 
 export const addToCart=async (req,res,next)=>{
-  const userId = req.params.id;
-  let {productId,quantity}=req.body;
-  quantity=Number(quantity)
-  const data = {productId,quantity}
+  const userId = req.user?.userId;
+    if(!req.user){
+      return next(new CustomError("Unauthorized - User not authenticated", 401));
+    }
+    let {productId,quantity}=req.body;
+    quantity=Number(quantity)
+    const data = {productId,quantity}
   try{
     const updatedCart = await addToCartService(userId,data)
     return successHandler(res,201,"added to cart",updatedCart) 
@@ -21,7 +24,7 @@ export const addToCart=async (req,res,next)=>{
 
 
 export const getCart= async(req,res,next)=>{
-  const userId=req.params.id;
+  const userId=req.user?.userId;
   try{
     const cart = await getCartService(userId)
     if(!cart){
@@ -37,8 +40,12 @@ export const getCart= async(req,res,next)=>{
 
 
 export const deleteCart = async(req,res,next)=>{
-  const userId = req.params.id;
-  const {productId}=req.body;
+  const userId = req.user?.userId;
+  let {productId}=req.body;
+  
+  // console.log("🔍 Incoming DELETE request...");
+  // console.log("✅ Extracted userId from req.user:", userId);
+  // console.log("✅ Extracted productId from req.body:", productId);
   try{
     await deleteCartService(userId,productId)
     return successHandler(res,201,"deleted")
@@ -49,7 +56,7 @@ export const deleteCart = async(req,res,next)=>{
 }
 
 export const deleteAll = async(req,res,next)=>{
-  const userId = req.params.id;
+  const userId = req.user?.userId;
   const {productId}=req.body;
   try{
     await deleteAllCartService(userId,productId)

@@ -2,6 +2,7 @@ import { cart } from "../models/cartSchema.js";
 
 
 export const addToCartService=async (id,data)=>{
+  
 const existingCart = await cart.findOne({userId:id} )
 if (!existingCart){
     const newCart = new cart({
@@ -29,8 +30,8 @@ export const getCartService=async(userId)=>{
     return await userCart;
 }
 
-export const deleteCartService=async(userId,productId)=>{
-    const exist = await cart.findOne({userId});
+export const deleteCartService=async(id,productId)=>{
+    const exist = await cart.findOne({userId:id});
    const existProduct = exist.products.find((item)=>item.productId.equals(productId));
    if(existProduct){
     if(existProduct.quantity>1){
@@ -43,7 +44,7 @@ export const deleteCartService=async(userId,productId)=>{
 }
 
 export const deleteAllCartService=async(userId,productId)=>{
-    const exist = await cart.findOne({userId});
+    const exist = await cart.findOne({userId:userId});
     if(exist){
       exist.products=exist.products.filter(item=>item.productId.toString()!==productId)
     };
