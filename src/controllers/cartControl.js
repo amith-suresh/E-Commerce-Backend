@@ -43,9 +43,9 @@ export const deleteCart = async(req,res,next)=>{
   const userId = req.user?.userId;
   let {productId}=req.body;
   
-  // console.log("🔍 Incoming DELETE request...");
-  // console.log("✅ Extracted userId from req.user:", userId);
-  // console.log("✅ Extracted productId from req.body:", productId);
+  // console.log(" Incoming DELETE request...");
+  // console.log(" Extracted userId from req.user:", userId);
+  // console.log(" Extracted productId from req.body:", productId);
   try{
     await deleteCartService(userId,productId)
     return successHandler(res,201,"deleted")
